@@ -14,7 +14,7 @@ public class Motorista {
     private String nome;
     private String cnh;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "caminhao_id", nullable = false)
     private Caminhao caminhao;
 }
