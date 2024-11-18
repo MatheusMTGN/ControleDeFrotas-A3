@@ -2,8 +2,10 @@ package br.com.a3_frotas.service;
 
 import br.com.a3_frotas.model.Caminhao;
 import br.com.a3_frotas.model.Motorista;
+import br.com.a3_frotas.model.Rota;
 import br.com.a3_frotas.repository.CaminhaoRepository;
 import br.com.a3_frotas.repository.MotoristaRepository;
+import br.com.a3_frotas.repository.RotaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +17,15 @@ public class MotoristaService {
 
     private final MotoristaRepository motoristaRepository;
     private final CaminhaoRepository caminhaoRepository;
+    private final RotaRepository rotaRepository;
 
 
     @Autowired
-    public MotoristaService (MotoristaRepository motoristaRepository, CaminhaoRepository caminhaoRepository) {
+    public MotoristaService (MotoristaRepository motoristaRepository, CaminhaoRepository caminhaoRepository, RotaRepository rotaRepository) {
 
         this.motoristaRepository = motoristaRepository;
         this.caminhaoRepository = caminhaoRepository;
+        this.rotaRepository = rotaRepository;
     }
 
     public Motorista cadastrarMotorista(Motorista motorista) {
@@ -86,5 +90,17 @@ public class MotoristaService {
         Motorista motorista = filtrarPorId(id);
         motorista.setAtivo(false);
         motoristaRepository.save(motorista);
+    }
+
+    public Motorista detalharMotorista(Long id){
+        Optional<Motorista> motorista = motoristaRepository.findById(id);
+        if(motorista.isEmpty()) {
+            throw new IllegalArgumentException("Nenhum motorista foi encontrado com este ID.");
+        }
+
+        Motorista motoristaDetalhamento = motorista.get();
+        List<Rota> rotas = rotaRepository.findByMotoristaId(motoristaDetalhamento.getId());
+        motoristaDetalhamento.setCaminhao(motoristaDetalhamento.getCaminhao());
+        return motoristaDetalhamento;
     }
 }
