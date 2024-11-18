@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface CaminhaoRepository extends JpaRepository<Caminhao, Integer> {
+public interface CaminhaoRepository extends JpaRepository<Caminhao, String> {
 
     Optional<Caminhao> findByPlaca(String placa);
 }

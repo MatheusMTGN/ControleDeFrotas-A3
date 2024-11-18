@@ -10,6 +10,9 @@ public interface MotoristaRepository extends JpaRepository<Motorista, Long> {
 
     Optional<Motorista> findByNome(String nome);
     Optional<Motorista> findByEmail(String email);
+    Optional<Motorista> findByCpf(String cpf);
     Optional<Motorista> findById(Long id);
     List<Motorista> findAll();
+    List<Motorista> findByNomeContainingIgnoreCase(String nome);
+    List<Motorista> findByAtivoTrue();
 }
