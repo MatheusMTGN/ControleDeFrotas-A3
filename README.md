@@ -1,6 +1,6 @@
 # 🚚 Sistema de Controle de Frotas de Caminhões
 
-Um sistema completo para gerenciar veículos, motoristas e rotas de uma frota de caminhões, desenvolvido com **Spring Boot** e **MySQL**. Este projeto permite o gerenciamento eficiente e seguro de dados essenciais para operações logísticas, com uma arquitetura **MVC** bem estruturada.
+Um sistema completo para gerenciar veículos, motoristas e rotas de uma frota de caminhões, desenvolvido com **Spring Boot** e **MySQL**. Este projeto permite o gerenciamento eficiente e seguro de dados essenciais para operações logísticas, com uma arquitetura **MVC**.
 
 ## 📝 Sumário
 - [Sobre o Projeto](#sobre-o-projeto)
