@@ -32,13 +32,16 @@ public class RotaService {
             throw new IllegalArgumentException("O motorista não foi encontrado");
         }
 
+        /*
         Optional <Caminhao> caminhao = caminhaoRepository.findByPlaca(rota.getCaminhao().getPlaca());
         if (caminhao.isEmpty()) {
             throw new IllegalArgumentException("Caminhão não encontrado");
         }
 
+
+         */
         rota.setMotorista(motorista.get());
-        rota.setCaminhao(caminhao.get());
+        //rota.setCaminhao(caminhao.get());
         return rotaRepository.save(rota);
     }
 
@@ -50,9 +53,6 @@ public class RotaService {
         return rotaRepository.findByMotoristaId(motoristaId);
     }
 
-    public List<Rota> filtrarPorCaminhao(Long caminhaoPlaca){
-        return rotaRepository.findByCaminhaoPlaca(caminhaoPlaca);
-    }
 
     public void excluirRota(Long id){
         Optional<Rota> rota = rotaRepository.findById(id);

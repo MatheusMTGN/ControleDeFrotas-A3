@@ -21,16 +21,14 @@ public class Rota {
     @JoinColumn(name = "motorista_id", nullable = false)
     private Motorista motorista;
 
-    @ManyToOne
-    @JoinColumn(name = "caminhao_placa", nullable = false)
-    private Caminhao caminhao;
 
-    public Rota(Long id, String pontoDePartida, String pontoDeChegada, Motorista motorista, Caminhao caminhao) {
+
+    public Rota(Long id, String pontoDePartida, String pontoDeChegada, Motorista motorista) {
         this.id = id;
         this.pontoDePartida = pontoDePartida;
         this.pontoDeChegada = pontoDeChegada;
         this.motorista = motorista;
-        this.caminhao = caminhao;
+
     }
 
     public Rota() {
