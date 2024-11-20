@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name="rota")
+@Table(name = "rotas")
 @Getter
 @Setter
 public class Rota {
@@ -17,7 +17,7 @@ public class Rota {
     private String pontoDePartida;
     private String pontoDeChegada;
 
-    @ManyToOne //Uma rota está associada a um motorista, mas um motorista está associada a várias rotas.
+    @ManyToOne
     @JoinColumn(name = "motorista_id", nullable = false)
     private Motorista motorista;
 
@@ -25,16 +25,16 @@ public class Rota {
     @JoinColumn(name = "placa_caminhao", nullable = false)
     private Caminhao caminhao;
 
-
-    public Rota(Long id, String pontoDePartida, String pontoDeChegada, Motorista motorista) {
+    // Construtor com argumentos
+    public Rota(Long id, String pontoDePartida, String pontoDeChegada, Motorista motorista, Caminhao caminhao) {
         this.id = id;
         this.pontoDePartida = pontoDePartida;
         this.pontoDeChegada = pontoDeChegada;
         this.motorista = motorista;
-
+        this.caminhao = caminhao;
     }
 
+    // Construtor padrão
     public Rota() {
-
     }
 }

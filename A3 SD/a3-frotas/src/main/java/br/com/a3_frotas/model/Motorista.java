@@ -10,11 +10,11 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name= "motoristas")
+@Table(name = "motoristas")
 public class Motorista {
 
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nome;
@@ -25,14 +25,14 @@ public class Motorista {
     private Boolean ativo = true;
     private String email;
 
-    @OneToMany(mappedBy = "motoristas", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "motorista", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Rota> rotas;
 
     @OneToOne
     @JoinColumn(name = "placa_caminhao", nullable = false, unique = true)
     private Caminhao caminhao;
 
-
+    // Construtor com argumentos
     public Motorista(Caminhao caminhao, Boolean ativo, String telefone, String cnh, LocalDate dataNascimento, String cpf, String nome, Long id, String email) {
         this.caminhao = caminhao;
         this.ativo = ativo;
@@ -45,6 +45,7 @@ public class Motorista {
         this.email = email;
     }
 
+    // Construtor padrão
     public Motorista() {
     }
 }
