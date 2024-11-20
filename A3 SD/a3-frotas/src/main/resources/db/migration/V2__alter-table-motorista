@@ -1,1 +1,0 @@
-ALTER TABLE motorista ADD COLUMN email VARCHAR(255);
