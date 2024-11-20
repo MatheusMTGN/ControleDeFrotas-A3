@@ -1,9 +1,7 @@
 package br.com.a3_frotas.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +12,9 @@ import lombok.Setter;
 public class Caminhao {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
      private String placa;
 
     private String model;

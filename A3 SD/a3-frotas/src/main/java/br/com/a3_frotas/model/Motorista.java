@@ -28,12 +28,12 @@ public class Motorista {
     @OneToMany(mappedBy = "motorista", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Rota> rotas;
 
-    @OneToOne
-    @JoinColumn(name = "placa_caminhao", nullable = false, unique = true)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "caminhao_id", referencedColumnName = "id", nullable = false)
     private Caminhao caminhao;
 
-    // Construtor com argumentos
-    public Motorista(Caminhao caminhao, Boolean ativo, String telefone, String cnh, LocalDate dataNascimento, String cpf, String nome, Long id, String email) {
+
+    public Motorista(Caminhao caminhao, Boolean ativo, String telefone, String cnh, LocalDate dataNascimento, String cpf, String nome, String email) {
         this.caminhao = caminhao;
         this.ativo = ativo;
         this.telefone = telefone;
@@ -41,11 +41,10 @@ public class Motorista {
         this.dataNascimento = dataNascimento;
         this.cpf = cpf;
         this.nome = nome;
-        this.id = id;
         this.email = email;
     }
 
-    // Construtor padrão
+
     public Motorista() {
     }
 }

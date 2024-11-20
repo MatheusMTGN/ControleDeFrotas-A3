@@ -1,6 +1,7 @@
 package br.com.a3_frotas.controller;
 
 
+import br.com.a3_frotas.dto.MotoristaDTO;
 import br.com.a3_frotas.model.Motorista;
 import br.com.a3_frotas.service.MotoristaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,35 @@ public class MotoristaController {
         this.motoristaService = motoristaService;
     }
 
+
     @PostMapping
-    public ResponseEntity<Motorista> cadastrarMotorista(@RequestBody Motorista motorista){
-        Motorista motoristaCadastro = motoristaService.cadastrarMotorista(motorista);
-        return ResponseEntity.status(HttpStatus.CREATED).body(motoristaCadastro);
+    public ResponseEntity<Motorista> cadastrarMotorista(@RequestBody MotoristaDTO motoristaDTO) {
+        if (motoristaDTO.getNome() == null || motoristaDTO.getNome().isBlank()) {
+            throw new IllegalArgumentException("O nome do motorista é obrigatório.");
+        }
+
+        if (motoristaDTO.getPlacaCaminhao() == null || motoristaDTO.getPlacaCaminhao().isBlank()) {
+            throw new IllegalArgumentException("A placa do caminhão é obrigatória.");
+        }
+
+        Motorista motorista = new Motorista();
+        motorista.setNome(motoristaDTO.getNome());
+        motorista.setCpf(motoristaDTO.getCpf());
+        motorista.setCnh(motoristaDTO.getCnh());
+        motorista.setDataNascimento(motoristaDTO.getDataNascimento());
+        motorista.setTelefone(motoristaDTO.getTelefone());
+        motorista.setEmail(motoristaDTO.getEmail());
+
+
+        Motorista novoMotorista = motoristaService.cadastrarMotorista(
+                motorista,
+                motoristaDTO.getPlacaCaminhao(),
+                motoristaDTO.getModelCaminhao(),
+                motoristaDTO.getAnoCaminhao()
+        );
+
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoMotorista);
     }
 
     @GetMapping

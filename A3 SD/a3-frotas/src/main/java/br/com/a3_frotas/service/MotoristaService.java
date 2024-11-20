@@ -15,8 +15,13 @@ import java.util.Optional;
 @Service
 public class MotoristaService {
 
+    @Autowired
     private final MotoristaRepository motoristaRepository;
+
+    @Autowired
     private final CaminhaoRepository caminhaoRepository;
+
+    @Autowired
     private final RotaRepository rotaRepository;
 
 
@@ -28,29 +33,43 @@ public class MotoristaService {
         this.rotaRepository = rotaRepository;
     }
 
-    public Motorista cadastrarMotorista(Motorista motorista) {
-        Optional<Motorista> motoristaExistente = motoristaRepository.findByCpf(motorista.getCpf());
-        if (motoristaExistente.isPresent()) {
-            throw new IllegalArgumentException("Motorista já cadastrado");
+    public Motorista cadastrarMotorista(Motorista motorista, String placaCaminhao, String modelCaminhao, int anoCaminhao) {
+
+        motoristaRepository.findByCpf(motorista.getCpf()).ifPresent(existing -> {
+            throw new IllegalArgumentException("Motorista já cadastrado com este CPF.");
+        });
+
+
+        motoristaRepository.findByEmail(motorista.getEmail()).ifPresent(existing -> {
+            throw new IllegalArgumentException("Já existe um motorista com este e-mail.");
+        });
+
+
+        if (placaCaminhao == null || placaCaminhao.isBlank()) {
+            throw new IllegalArgumentException("É necessário informar a placa do caminhão.");
         }
 
-        Optional<Motorista> motoristaEmail = motoristaRepository.findByEmail(motorista.getEmail());
-        if (motoristaEmail.isPresent()) {
-            throw new IllegalArgumentException("Já existe um motorista com este e-mail");
+
+        Optional<Caminhao> caminhaoExistente = caminhaoRepository.findByPlaca(placaCaminhao);
+
+        Caminhao caminhao;
+        if (caminhaoExistente.isPresent()) {
+
+            caminhao = caminhaoExistente.get();
+        } else {
+
+            caminhao = new Caminhao(placaCaminhao, anoCaminhao, modelCaminhao);
+            caminhao = caminhaoRepository.save(caminhao);
         }
 
-        // Verficia se há caminhão para cadastro. Se existir, ele cadastra (caso ainda não exista);
-        if (motorista.getCaminhao() != null) {
-            Caminhao caminhao = motorista.getCaminhao();
-            Optional<Caminhao> caminhaoExistente = caminhaoRepository.findByPlaca(caminhao.getPlaca());
-            if (caminhaoExistente.isEmpty()) {
-                caminhaoRepository.save(caminhao); //Salva o caminhão, caso ainda não estiver cadastrado
-            }else{
-                motorista.setCaminhao(caminhaoExistente.get()); //Seta o caminhão ao motorista cadastrado
-            }
-        }
+
+        motorista.setCaminhao(caminhao);
+
+
         return motoristaRepository.save(motorista);
     }
+
+
 
     public List<Motorista> listarTodosOsMotoristas() {
         return motoristaRepository.findAll();
