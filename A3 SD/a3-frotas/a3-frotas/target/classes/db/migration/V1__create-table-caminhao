@@ -1,5 +1,0 @@
-CREATE TABLE caminhao (
-    placa VARCHAR(10) PRIMARY KEY,
-    modelo VARCHAR(50) NOT NULL,
-    ano INT NOT NULL
-);

@@ -1,3 +1,0 @@
-ALTER TABLE rota
-ADD COLUMN motorista_id BIGINT,
-ADD CONSTRAINT fk_motorista_rota FOREIGN KEY (motorista_id) REFERENCES motorista(id) ON DELETE SET NULL;
