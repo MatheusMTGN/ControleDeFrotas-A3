@@ -21,6 +21,9 @@ public class Rota {
     @JoinColumn(name = "motorista_id", nullable = false)
     private Motorista motorista;
 
+    @ManyToOne
+    @JoinColumn(name = "placa_caminhao", nullable = false)
+    private Caminhao caminhao;
 
 
     public Rota(Long id, String pontoDePartida, String pontoDeChegada, Motorista motorista) {

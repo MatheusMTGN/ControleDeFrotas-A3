@@ -21,7 +21,47 @@ public class MotoristaController {
         this.motoristaService = motoristaService;
     }
 
+    @PostMapping
+    public ResponseEntity<Motorista> cadastrarMotorista(@RequestBody Motorista motorista){
+        Motorista motoristaCadastro = motoristaService.cadastrarMotorista(motorista);
+        return ResponseEntity.status(HttpStatus.CREATED).body(motoristaCadastro);
+    }
 
+    @GetMapping
+    public ResponseEntity<List<Motorista>> listarMotoristas(){
+        List<Motorista> motoristas = motoristaService.listarTodosOsMotoristas();
+        return ResponseEntity.ok(motoristas);
+    }
 
+    @GetMapping("/ativos")
+    public ResponseEntity<List<Motorista>> listasMotoristasAtivos(){
+        List<Motorista> motoristasAtivos = motoristaService.listarMotoristasAtivos();
+        return ResponseEntity.ok(motoristasAtivos);
+    }
 
+    @GetMapping({"/{id}"})
+    public ResponseEntity<Motorista> buscarMotoristaPorId(@PathVariable Long id){
+        Motorista motoristaDetalhado = motoristaService.detalharMotorista(id);
+
+        if(motoristaDetalhado == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(motoristaDetalhado);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Motorista> atualizarMotorista(@PathVariable Long id, @RequestBody Motorista motoristaAtualizado){
+       Motorista motoristaAtualizadoResponse = motoristaService.atualizarMotorista(id,motoristaAtualizado);
+
+       if(motoristaAtualizadoResponse == null){
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+       }
+       return ResponseEntity.ok(motoristaAtualizadoResponse);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarMotorista(@PathVariable Long id){
+        motoristaService.deletarMotorista(id);
+        return ResponseEntity.noContent().build();
+    }
 }

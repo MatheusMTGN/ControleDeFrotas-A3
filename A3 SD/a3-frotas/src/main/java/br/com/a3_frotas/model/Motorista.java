@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,8 +25,11 @@ public class Motorista {
     private Boolean ativo = true;
     private String email;
 
+    @OneToMany(mappedBy = "motoristas", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Rota> rotas;
+
     @OneToOne
-    @JoinColumn(name = "placa_caminhao", referencedColumnName = "placa", nullable = false, unique = true)
+    @JoinColumn(name = "placa_caminhao", nullable = false, unique = true)
     private Caminhao caminhao;
 
 

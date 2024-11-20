@@ -54,4 +54,22 @@ public class CaminhaoService {
 
         caminhaoRepository.delete( caminhao );
     }
+
+    public Caminhao atualizarCaminhao(Caminhao caminhaoAtualizado) {
+        Caminhao caminhao = filtrarPorPlaca(caminhaoAtualizado.getPlaca());
+
+        if(caminhao != null) {
+            return null;
+        }
+
+        if(caminhaoAtualizado.getModel() != null) {
+            caminhao.setModel(caminhaoAtualizado.getModel());
+        }
+
+        if(caminhaoAtualizado.getAno() != 0){
+            caminhao.setAno(caminhaoAtualizado.getAno());
+        }
+
+        return caminhaoRepository.save( caminhao );
+    }
 }

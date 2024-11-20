@@ -92,15 +92,17 @@ public class MotoristaService {
         motoristaRepository.save(motorista);
     }
 
+    //Deverá ser mostrado as informações pessoais do motorista, bem como a associação dos mesmos com caminhões e corridas
     public Motorista detalharMotorista(Long id){
-        Optional<Motorista> motorista = motoristaRepository.findById(id);
-        if(motorista.isEmpty()) {
+        Optional<Motorista> motoristaOptional = motoristaRepository.findById(id);
+
+        if(motoristaOptional.isEmpty()){
             throw new IllegalArgumentException("Nenhum motorista foi encontrado com este ID.");
         }
 
-        Motorista motoristaDetalhamento = motorista.get();
-        List<Rota> rotas = rotaRepository.findByMotoristaId(motoristaDetalhamento.getId());
-        motoristaDetalhamento.setCaminhao(motoristaDetalhamento.getCaminhao());
-        return motoristaDetalhamento;
+        Motorista motorista = motoristaOptional.get();
+        List<Rota> rotas = rotaRepository.findByMotoristaId(id);
+        motorista.setRotas(rotas);
+        return motorista;
     }
 }
