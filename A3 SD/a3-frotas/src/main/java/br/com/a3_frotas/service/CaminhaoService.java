@@ -5,6 +5,7 @@ import br.com.a3_frotas.repository.CaminhaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,12 +18,11 @@ public class CaminhaoService {
     }
 
     public Caminhao adicionarCaminhao(Caminhao caminhao) {
-        Optional<Caminhao> caminhaoExistente = caminhaoRepository.findByPlaca( caminhao.getPlaca() );
-        if(caminhaoExistente.isPresent()) {
-            throw new IllegalArgumentException("Já existe um veículo adicionado com este placa");
-        }else{
-            return caminhaoRepository.save( caminhao );
+        Optional<Caminhao> caminhaoExistente = caminhaoRepository.findByPlaca(caminhao.getPlaca());
+        if (caminhaoExistente.isPresent()) {
+            throw new IllegalArgumentException("Já existe um veículo adicionado com esta placa");
         }
+        return caminhaoRepository.save(caminhao);
     }
 
     public Caminhao filtrarPorPlaca(String placa) {
@@ -32,44 +32,29 @@ public class CaminhaoService {
     public Caminhao atualizarCaminhao(String placa, Caminhao caminhaoAtualizado) {
         Caminhao caminhao = filtrarPorPlaca(placa);
 
-        if(caminhao != null) {
+        if (caminhao == null) {
             throw new IllegalArgumentException("Não há nenhum caminhão cadastrado com esta placa.");
         }
 
-        if(caminhaoAtualizado.getModel() != null) {
+        if (caminhaoAtualizado.getModel() != null) {
             caminhao.setModel(caminhaoAtualizado.getModel());
         }
-        if (caminhaoAtualizado.getAno() != 0){
+        if (caminhaoAtualizado.getAno() != 0) {
             caminhao.setAno(caminhaoAtualizado.getAno());
         }
 
-        return caminhaoRepository.save( caminhao );
+        return caminhaoRepository.save(caminhao);
     }
-
     public void removerCaminhao(String placa) {
         Caminhao caminhao = filtrarPorPlaca(placa);
-        if(caminhao != null) {
+        if (caminhao == null) {
             throw new IllegalArgumentException("Não há nenhum caminhão cadastrado com esta placa.");
         }
 
-        caminhaoRepository.delete( caminhao );
+        caminhaoRepository.delete(caminhao);
     }
 
-    public Caminhao atualizarCaminhao(Caminhao caminhaoAtualizado) {
-        Caminhao caminhao = filtrarPorPlaca(caminhaoAtualizado.getPlaca());
-
-        if(caminhao != null) {
-            return null;
-        }
-
-        if(caminhaoAtualizado.getModel() != null) {
-            caminhao.setModel(caminhaoAtualizado.getModel());
-        }
-
-        if(caminhaoAtualizado.getAno() != 0){
-            caminhao.setAno(caminhaoAtualizado.getAno());
-        }
-
-        return caminhaoRepository.save( caminhao );
+    public List<Caminhao> listarTodosOsCaminhoes() {
+        return caminhaoRepository.findAll();
     }
 }

@@ -14,8 +14,7 @@ public class MotoristaDTO {
     private LocalDate dataNascimento;
     private String telefone;
     private String email;
-    private String placaCaminhao;
-    private String modelCaminhao;
-    private int anoCaminhao;
 
+
+    private Long caminhaoId;
 }

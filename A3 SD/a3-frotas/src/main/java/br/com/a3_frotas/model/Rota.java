@@ -1,5 +1,6 @@
 package br.com.a3_frotas.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,10 +15,14 @@ public class Rota {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonProperty("origem")
     private String pontoDePartida;
+
+    @JsonProperty("destino")
     private String pontoDeChegada;
 
     @ManyToOne
+    @JsonProperty("motoristaId")
     @JoinColumn(name = "motorista_id", nullable = false)
     private Motorista motorista;
 

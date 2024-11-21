@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/rota")
+@RequestMapping("/rotas")
 public class RotaController {
 
+    //não testei os endpoints.
     private final RotaService rotaService;
 
     @Autowired
@@ -21,8 +22,8 @@ public class RotaController {
     }
 
     @PostMapping
-    public ResponseEntity<Rota> cadastrarRota(@RequestBody Rota rota) {
-        Rota rotaCadastrada = rotaService.CadastrarRota(rota);
+    public ResponseEntity<Rota> cadastrarRota(@RequestParam String origem, @RequestParam String destino, @RequestParam Long motoristaId, @RequestParam String placaCaminhao) {
+        Rota rotaCadastrada = rotaService.cadastrarRota(origem, destino, motoristaId, placaCaminhao);
         return ResponseEntity.status(HttpStatus.CREATED).body(rotaCadastrada);
     }
 

@@ -1,5 +1,6 @@
 package br.com.a3_frotas.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,22 +18,36 @@ public class Motorista {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String nome;
+
+    @Column(nullable = false, unique = true)
     private String cpf;
+
+    @Column(nullable = false)
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataNascimento;
+
+    @Column(nullable = false, unique = true)
     private String cnh;
+
+    @Column(nullable = false)
     private String telefone;
+
+
     private Boolean ativo = true;
+
+    @Column(nullable = false, unique = true)
     private String email;
 
     @OneToMany(mappedBy = "motorista", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Rota> rotas;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "caminhao_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "caminhao_id", nullable = true)
     private Caminhao caminhao;
 
-
+    // Construtor com parâmetros
     public Motorista(Caminhao caminhao, Boolean ativo, String telefone, String cnh, LocalDate dataNascimento, String cpf, String nome, String email) {
         this.caminhao = caminhao;
         this.ativo = ativo;
@@ -44,7 +59,7 @@ public class Motorista {
         this.email = email;
     }
 
-
+    // Construtor sem parâmetros
     public Motorista() {
     }
 }

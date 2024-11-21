@@ -26,22 +26,20 @@ public class RotaService {
         this.caminhaoRepository = caminhaoRepository;
     }
 
-    public Rota CadastrarRota(Rota rota) {
-        Optional<Motorista> motorista = motoristaRepository.findById(rota.getMotorista().getId());
-        if (motorista.isEmpty()) {
-            throw new IllegalArgumentException("O motorista não foi encontrado");
-        }
+    public Rota cadastrarRota(String origem, String destino, Long motoristaId, String placaCaminhao) {
 
-        /*
-        Optional <Caminhao> caminhao = caminhaoRepository.findByPlaca(rota.getCaminhao().getPlaca());
-        if (caminhao.isEmpty()) {
-            throw new IllegalArgumentException("Caminhão não encontrado");
-        }
+        Motorista motorista = motoristaRepository.findById(motoristaId)
+                .orElseThrow(() -> new IllegalArgumentException("Motorista com ID não encontrado."));
 
+        Caminhao caminhao = caminhaoRepository.findByPlaca(placaCaminhao)
+                .orElseThrow(() -> new IllegalArgumentException("Caminhão com placa não encontrado."));
 
-         */
-        rota.setMotorista(motorista.get());
-        //rota.setCaminhao(caminhao.get());
+        Rota rota = new Rota();
+        rota.setPontoDePartida(origem);
+        rota.setPontoDeChegada(destino);
+        rota.setMotorista(motorista);
+        rota.setCaminhao(caminhao);
+
         return rotaRepository.save(rota);
     }
 

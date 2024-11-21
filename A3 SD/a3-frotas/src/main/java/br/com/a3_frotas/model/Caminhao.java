@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name="caminhao")
+@Table(name="caminhoes")
 @Getter
 @Setter
 public class Caminhao {
@@ -30,4 +30,6 @@ public class Caminhao {
     public Caminhao() {
 
     }
+
+
 }
