@@ -27,6 +27,14 @@ public class Caminhao {
         this.model = model;
     }
 
+    public void setPlaca(String placa) {
+        if(placa.length()!=6){
+            throw new IllegalArgumentException("A placa deve conter 6 dígitos");
+        }else{
+            this.placa = placa;
+        }
+    }
+
     public Caminhao() {
 
     }
