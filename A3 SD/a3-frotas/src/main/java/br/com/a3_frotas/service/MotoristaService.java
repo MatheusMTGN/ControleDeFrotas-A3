@@ -67,15 +67,17 @@ public class MotoristaService {
         return motoristaRepository.findById(id).orElse(null);
     }
 
+    //Não usamos
     public Motorista filtrarPorCpf(String cpf) {
         return motoristaRepository.findByCpf(cpf).orElse(null);
     }
 
+    //Não usamos
     public List<Motorista> filtrarPorNome(String nome) {
         return motoristaRepository.findByNomeContainingIgnoreCase(nome);
     }
 
-    // Não tá atualizando os campos
+
     public Motorista atualizarMotorista(Long id, Motorista motoristaAtualizado) {
         Motorista motorista = filtrarPorId(id);
 

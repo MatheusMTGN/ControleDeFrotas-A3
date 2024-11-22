@@ -21,32 +21,37 @@ public class MotoristaController {
         this.motoristaService = motoristaService;
     }
 
-    // Cadastrar motorista sem caminhão
+    //Todos os métodos estão funcionando.
+
+    // Cadastrar motorista sem caminhão - funcionando
     @PostMapping
     public ResponseEntity<Motorista> cadastrarMotorista(@RequestBody Motorista motorista) {
         Motorista novoMotorista = motoristaService.cadastrarMotorista(motorista);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoMotorista);
     }
 
-    // Vincular caminhão a um motorista existente
+    // Vincular caminhão a um motorista existente - funcionando
     @PostMapping("/{motoristaId}/vincular-caminhao/{caminhaoId}")
     public ResponseEntity<Motorista> vincularCaminhao(@PathVariable Long motoristaId, @PathVariable Long caminhaoId) {
         Motorista motoristaAtualizado = motoristaService.vincularCaminhao(motoristaId, caminhaoId);
         return ResponseEntity.ok(motoristaAtualizado);
     }
 
+    //Funcionando
     @GetMapping
     public ResponseEntity<List<Motorista>> listarMotoristas() {
         List<Motorista> motoristas = motoristaService.listarTodosOsMotoristas();
         return ResponseEntity.ok(motoristas);
     }
 
+    //Funcionando
     @GetMapping("/ativos")
     public ResponseEntity<List<Motorista>> listarMotoristasAtivos() {
         List<Motorista> motoristasAtivos = motoristaService.listarMotoristasAtivos();
         return ResponseEntity.ok(motoristasAtivos);
     }
 
+    //Funcionando
     @GetMapping("/{id}")
     public ResponseEntity<Motorista> buscarMotoristaPorId(@PathVariable Long id) {
         Motorista motoristaDetalhado = motoristaService.detalharMotorista(id);
@@ -57,7 +62,7 @@ public class MotoristaController {
         return ResponseEntity.ok(motoristaDetalhado);
     }
 
-    //NAO ATUALIZA
+    //Funcionando
     @PutMapping("/{id}")
     public ResponseEntity<Motorista> atualizarMotorista(@PathVariable Long id, @RequestBody Motorista motoristaAtualizado) {
         Motorista motoristaAtualizadoResponse = motoristaService.atualizarMotorista(id, motoristaAtualizado);
@@ -68,10 +73,25 @@ public class MotoristaController {
         return ResponseEntity.ok(motoristaAtualizadoResponse);
     }
 
-
+    //Funcionando
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarMotorista(@PathVariable Long id) {
         motoristaService.deletarMotorista(id);
         return ResponseEntity.noContent().build();
     }
+
+
+    //Funcionando
+    @GetMapping("/detalhes/{id}")
+    public ResponseEntity<?> detalhesMotorista(@PathVariable Long id) {
+        try {
+            Motorista motoristaDetalhado = motoristaService.detalharMotorista(id);
+            return ResponseEntity.ok(motoristaDetalhado);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+
+
 }

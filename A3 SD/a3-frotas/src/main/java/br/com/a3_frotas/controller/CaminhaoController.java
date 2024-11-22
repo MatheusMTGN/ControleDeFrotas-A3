@@ -13,7 +13,6 @@ import java.util.List;
 @RequestMapping("/caminhoes")
 public class CaminhaoController {
 
-    //aparentemente, tudo ta funcionando aqui.
     private final CaminhaoService caminhaoService;
 
     @Autowired
@@ -21,19 +20,24 @@ public class CaminhaoController {
         this.caminhaoService = caminhaoService;
     }
 
+    //Todos os métodos estão funcionando. 
+
     @PostMapping
-    public ResponseEntity<Caminhao> adicionarCaminhao(@RequestBody Caminhao caminhao) {
-        if (caminhao.getPlaca() == null || caminhao.getPlaca().isEmpty()) {
-            return ResponseEntity.badRequest().body(null);
+    public ResponseEntity<?> adicionarCaminhao(@RequestBody Caminhao caminhao) {
+        if (caminhao.getPlaca() == null || caminhao.getPlaca().isEmpty() ||
+                caminhao.getModel() == null || caminhao.getModel().isEmpty() ||
+                caminhao.getAno() == 0) {
+            return ResponseEntity.badRequest().body("Placa, modelo e ano são obrigatórios");
         }
 
         try {
             Caminhao caminhaoAdicionado = caminhaoService.adicionarCaminhao(caminhao);
             return ResponseEntity.status(HttpStatus.CREATED).body(caminhaoAdicionado);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
+
 
     @GetMapping("/{placa}")
     public ResponseEntity<Caminhao> buscarCaminhao(@PathVariable String placa) {

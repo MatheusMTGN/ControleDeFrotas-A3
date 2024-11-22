@@ -1,10 +1,14 @@
 package br.com.a3_frotas.controller;
 
+import br.com.a3_frotas.model.Motorista;
 import br.com.a3_frotas.model.Rota;
+import br.com.a3_frotas.service.MotoristaService;
 import br.com.a3_frotas.service.RotaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,38 +17,81 @@ import java.util.List;
 @RequestMapping("/rotas")
 public class RotaController {
 
-    //não testei os endpoints.
     private final RotaService rotaService;
+    private final MotoristaService motoristaService;
 
     @Autowired
-    public RotaController(RotaService rotaService) {
+    public RotaController(RotaService rotaService, MotoristaService motoristaService) {
         this.rotaService = rotaService;
+        this.motoristaService = motoristaService;
     }
 
+    //Todos os métodos estão funcionando.
+    //Funcionando
     @PostMapping
-    public ResponseEntity<Rota> cadastrarRota(@RequestParam String origem, @RequestParam String destino, @RequestParam Long motoristaId, @RequestParam String placaCaminhao) {
-        Rota rotaCadastrada = rotaService.cadastrarRota(origem, destino, motoristaId, placaCaminhao);
+    public ResponseEntity<Rota> cadastrarRota(@RequestBody Rota novaRota) {
+        if (novaRota.getMotorista() == null || novaRota.getMotorista().getId() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+        if (novaRota.getPontoDePartida() == null || novaRota.getPontoDePartida().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+        if (novaRota.getPontoDeChegada() == null || novaRota.getPontoDeChegada().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+        Motorista motorista = motoristaService.filtrarPorId(novaRota.getMotorista().getId());
+        if (motorista == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        novaRota.setMotorista(motorista);
+
+        Rota rotaCadastrada = rotaService.cadastrarRota(novaRota);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(rotaCadastrada);
     }
 
+    //Funcionando
     @GetMapping
-    public ResponseEntity<List<Rota>> listarRotas(){
+    public ResponseEntity<List<Rota>> listarRotas() {
         List<Rota> rotas = rotaService.listarRotas();
         return ResponseEntity.ok(rotas);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Rota> atualizarRota(@PathVariable Long id, @RequestBody Rota rotaAtualizada) {
-        Rota rotaAtualizadaResponse = rotaService.atualizarRota(id, rotaAtualizada);
-        if(rotaAtualizadaResponse == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.ok(rotaAtualizadaResponse);
-    }
 
+    //Funcionando
+    @PutMapping("/{id}")
+    public ResponseEntity<?> atualizarRota(@PathVariable Long id, @RequestBody Rota rotaAtualizada) {
+        try {
+            Rota rotaAtualizadaResponse = rotaService.atualizarRota(id, rotaAtualizada);
+            return ResponseEntity.ok(rotaAtualizadaResponse);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar a rota.");
+        }
+    }
+    //Funcionando
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> removerRota(@PathVariable Long id) {
         rotaService.excluirRota(id);
         return ResponseEntity.noContent().build();
     }
+
+    //Funcionando
+    @GetMapping("/motorista/{motoristaId}")
+    public ResponseEntity<List<Rota>> filtrarPorMotorista(@PathVariable Long motoristaId) {
+
+        List<Rota> rotas = rotaService.filtrarPorMotorista(motoristaId);
+        if (rotas.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok(rotas);
+
+    }
+
+
 }

@@ -18,12 +18,19 @@ public class CaminhaoService {
     }
 
     public Caminhao adicionarCaminhao(Caminhao caminhao) {
+        if (caminhao.getPlaca() == null || caminhao.getPlaca().isEmpty() ||
+                caminhao.getModel() == null || caminhao.getModel().isEmpty() ||
+                caminhao.getAno() == 0) {
+            throw new IllegalArgumentException("Placa, modelo e ano são obrigatórios");
+        }
+
         Optional<Caminhao> caminhaoExistente = caminhaoRepository.findByPlaca(caminhao.getPlaca());
         if (caminhaoExistente.isPresent()) {
             throw new IllegalArgumentException("Já existe um veículo adicionado com esta placa");
         }
         return caminhaoRepository.save(caminhao);
     }
+
 
     public Caminhao filtrarPorPlaca(String placa) {
         return caminhaoRepository.findByPlaca(placa).orElse(null);
