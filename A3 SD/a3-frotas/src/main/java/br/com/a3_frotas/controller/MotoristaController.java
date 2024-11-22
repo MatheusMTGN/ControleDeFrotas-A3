@@ -25,9 +25,13 @@ public class MotoristaController {
 
     // Cadastrar motorista sem caminhão - funcionando
     @PostMapping
-    public ResponseEntity<Motorista> cadastrarMotorista(@RequestBody Motorista motorista) {
-        Motorista novoMotorista = motoristaService.cadastrarMotorista(motorista);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novoMotorista);
+    public ResponseEntity<?> cadastrarMotorista(@RequestBody Motorista motorista) {
+        try{
+            Motorista novoMotorista = motoristaService.cadastrarMotorista(motorista);
+            return ResponseEntity.status(HttpStatus.CREATED).body(novoMotorista);
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
     }
 
     // Vincular caminhão a um motorista existente - funcionando

@@ -27,19 +27,19 @@ public class RotaController {
     }
 
     //Todos os métodos estão funcionando.
-    //Funcionando
+
+    /*Método atualizado com a regra de negócio: uma rota só pode ser cadastrada com um motorista (pelo ID) e o mesmo deve ter
+    um caminhão vinculado.
+    * */
     @PostMapping
     public ResponseEntity<Rota> cadastrarRota(@RequestBody Rota novaRota) {
         if (novaRota.getMotorista() == null || novaRota.getMotorista().getId() == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.badRequest().body(null);
         }
 
-        if (novaRota.getPontoDePartida() == null || novaRota.getPontoDePartida().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-
-        if (novaRota.getPontoDeChegada() == null || novaRota.getPontoDeChegada().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        if (novaRota.getPontoDePartida() == null || novaRota.getPontoDePartida().isEmpty() ||
+                novaRota.getPontoDeChegada() == null || novaRota.getPontoDeChegada().isEmpty()) {
+            return ResponseEntity.badRequest().body(null);
         }
 
         Motorista motorista = motoristaService.filtrarPorId(novaRota.getMotorista().getId());
@@ -47,12 +47,11 @@ public class RotaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
-        novaRota.setMotorista(motorista);
-
         Rota rotaCadastrada = rotaService.cadastrarRota(novaRota);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(rotaCadastrada);
     }
+
 
     //Funcionando
     @GetMapping

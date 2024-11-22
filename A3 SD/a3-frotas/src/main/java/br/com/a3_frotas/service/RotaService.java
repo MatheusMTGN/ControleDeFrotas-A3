@@ -35,6 +35,10 @@ public class RotaService {
         Motorista motorista = motoristaRepository.findById(novaRota.getMotorista().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Motorista com ID não encontrado."));
 
+        if(!motorista.getAtivo() || motorista.getCaminhao() == null){
+                throw new IllegalArgumentException("O motorista não está ativo ou não tem um caminhão");
+        }
+
         Rota rota = new Rota();
         rota.setPontoDePartida(novaRota.getPontoDePartida());
         rota.setPontoDeChegada(novaRota.getPontoDeChegada());
