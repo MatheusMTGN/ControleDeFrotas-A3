@@ -13,6 +13,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "motoristas")
+@Getter
+@Setter
 public class Motorista {
 
     @Id
@@ -59,76 +61,6 @@ public class Motorista {
         this.cpf = cpf;
         this.nome = nome;
         this.email = email;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-
-    public LocalDate getDataNascimento() {
-        return dataNascimento;
-    }
-
-    public String getCnh() {
-        return cnh;
-    }
-
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public Boolean getAtivo() {
-        return ativo;
-    }
-
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public List<Rota> getRotas() {
-        return rotas;
-    }
-
-    public void setRotas(List<Rota> rotas) {
-        this.rotas = rotas;
-    }
-
-    public Caminhao getCaminhao() {
-        return caminhao;
-    }
-
-    public void setCaminhao(Caminhao caminhao) {
-        this.caminhao = caminhao;
     }
 
     public void setDataNascimento(LocalDate dataNascimento) {
