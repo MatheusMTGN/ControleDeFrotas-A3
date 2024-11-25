@@ -34,7 +34,7 @@ public class CaminhaoController {
             Caminhao caminhaoAdicionado = caminhaoService.adicionarCaminhao(caminhao);
             return ResponseEntity.status(HttpStatus.CREATED).body(caminhaoAdicionado);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Caminhão já existente.");
         }
     }
 
@@ -43,29 +43,35 @@ public class CaminhaoController {
     public ResponseEntity<Caminhao> buscarCaminhao(@PathVariable String placa) {
         Caminhao caminhao = caminhaoService.filtrarPorPlaca(placa);
         if (caminhao == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        return ResponseEntity.ok(caminhao);
+        return ResponseEntity.status(HttpStatus.OK).body(caminhao);
     }
 
-    @PutMapping("/{placa}")
+
+
+    @PostMapping("/{placa}")
     public ResponseEntity<Caminhao> atualizarCaminhao(@PathVariable String placa, @RequestBody Caminhao caminhaoAtualizado) {
         Caminhao caminhaoAtualizadoResponse = caminhaoService.atualizarCaminhao(placa, caminhaoAtualizado);
         if (caminhaoAtualizadoResponse == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.ok(caminhaoAtualizadoResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(caminhaoAtualizadoResponse);
     }
 
     @DeleteMapping("/{placa}")
     public ResponseEntity<Void> removerCaminhao(@PathVariable String placa) {
-        caminhaoService.removerCaminhao(placa);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        try{
+            caminhaoService.removerCaminhao(placa);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @GetMapping
     public ResponseEntity<List<Caminhao>> listarCaminhoes() {
         List<Caminhao> caminhaos = caminhaoService.listarTodosOsCaminhoes();
-        return ResponseEntity.ok(caminhaos);
+        return ResponseEntity.status(HttpStatus.OK).body(caminhaos);
     }
 }

@@ -44,7 +44,7 @@ public class RotaController {
 
         Motorista motorista = motoristaService.filtrarPorId(novaRota.getMotorista().getId());
         if (motorista == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
         Rota rotaCadastrada = rotaService.cadastrarRota(novaRota);
@@ -57,7 +57,7 @@ public class RotaController {
     @GetMapping
     public ResponseEntity<List<Rota>> listarRotas() {
         List<Rota> rotas = rotaService.listarRotas();
-        return ResponseEntity.ok(rotas);
+        return ResponseEntity.status(HttpStatus.OK).body(rotas);
     }
 
 
@@ -68,7 +68,7 @@ public class RotaController {
             Rota rotaAtualizadaResponse = rotaService.atualizarRota(id, rotaAtualizada);
             return ResponseEntity.ok(rotaAtualizadaResponse);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Rota inexistente");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar a rota.");
         }
@@ -76,8 +76,12 @@ public class RotaController {
     //Funcionando
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> removerRota(@PathVariable Long id) {
-        rotaService.excluirRota(id);
-        return ResponseEntity.noContent().build();
+        try{
+            rotaService.excluirRota(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     //Funcionando
@@ -88,9 +92,8 @@ public class RotaController {
         if (rotas.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        return ResponseEntity.ok(rotas);
+        return ResponseEntity.status(HttpStatus.OK).body(rotas);
 
     }
-
 
 }

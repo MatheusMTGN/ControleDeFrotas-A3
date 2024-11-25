@@ -1,6 +1,7 @@
 package br.com.a3_frotas.model;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,10 +16,14 @@ public class Caminhao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
      private String placa;
 
+    @JsonProperty("modelo")
+    @Column(nullable = false)
     private String model;
 
+    @Column(nullable = false)
     private int ano;
 
     public Caminhao(String placa, int ano, String model) {

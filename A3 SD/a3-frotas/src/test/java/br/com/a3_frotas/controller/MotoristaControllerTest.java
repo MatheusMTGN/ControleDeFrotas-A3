@@ -81,7 +81,7 @@ public class MotoristaControllerTest {
         Long caminhaoId = 2L;
         when(motoristaService.vincularCaminhao(motoristaId, caminhaoId)).thenReturn(motorista);
 
-        ResponseEntity<Motorista> response = motoristaController.vincularCaminhao(motoristaId, caminhaoId);
+        ResponseEntity<?> response = motoristaController.vincularCaminhao(motoristaId, caminhaoId);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(motorista, response.getBody());

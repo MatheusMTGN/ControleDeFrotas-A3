@@ -1,6 +1,6 @@
 package br.com.a3_frotas.controller;
 
-import br.com.a3_frotas.dto.MotoristaDTO;
+
 import br.com.a3_frotas.model.Motorista;
 import br.com.a3_frotas.service.MotoristaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,29 +30,33 @@ public class MotoristaController {
             Motorista novoMotorista = motoristaService.cadastrarMotorista(motorista);
             return ResponseEntity.status(HttpStatus.CREATED).body(novoMotorista);
         }catch (IllegalArgumentException e){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Motorista já cadastrado");
         }
     }
 
     // Vincular caminhão a um motorista existente - funcionando
     @PostMapping("/{motoristaId}/vincular-caminhao/{caminhaoId}")
-    public ResponseEntity<Motorista> vincularCaminhao(@PathVariable Long motoristaId, @PathVariable Long caminhaoId) {
-        Motorista motoristaAtualizado = motoristaService.vincularCaminhao(motoristaId, caminhaoId);
-        return ResponseEntity.ok(motoristaAtualizado);
+    public ResponseEntity<?> vincularCaminhao(@PathVariable Long motoristaId, @PathVariable Long caminhaoId) {
+        try{
+            Motorista motoristaAtualizado = motoristaService.vincularCaminhao(motoristaId, caminhaoId);
+            return ResponseEntity.status(HttpStatus.OK).body(motoristaAtualizado);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     //Funcionando
     @GetMapping
     public ResponseEntity<List<Motorista>> listarMotoristas() {
         List<Motorista> motoristas = motoristaService.listarTodosOsMotoristas();
-        return ResponseEntity.ok(motoristas);
+        return ResponseEntity.status(HttpStatus.OK).body(motoristas);
     }
 
     //Funcionando
     @GetMapping("/ativos")
     public ResponseEntity<List<Motorista>> listarMotoristasAtivos() {
         List<Motorista> motoristasAtivos = motoristaService.listarMotoristasAtivos();
-        return ResponseEntity.ok(motoristasAtivos);
+        return ResponseEntity.status(HttpStatus.OK).body(motoristasAtivos);
     }
 
     //Funcionando
@@ -63,7 +67,7 @@ public class MotoristaController {
         if (motoristaDetalhado == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.ok(motoristaDetalhado);
+        return ResponseEntity.status(HttpStatus.OK).body(motoristaDetalhado);
     }
 
     //Funcionando
@@ -74,14 +78,18 @@ public class MotoristaController {
         if (motoristaAtualizadoResponse == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return ResponseEntity.ok(motoristaAtualizadoResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(motoristaAtualizadoResponse);
     }
 
     //Funcionando
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarMotorista(@PathVariable Long id) {
-        motoristaService.deletarMotorista(id);
-        return ResponseEntity.noContent().build();
+        try{
+            motoristaService.deletarMotorista(id);
+            return ResponseEntity.noContent().build();
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
 
@@ -90,9 +98,9 @@ public class MotoristaController {
     public ResponseEntity<?> detalhesMotorista(@PathVariable Long id) {
         try {
             Motorista motoristaDetalhado = motoristaService.detalharMotorista(id);
-            return ResponseEntity.ok(motoristaDetalhado);
+            return ResponseEntity.status(HttpStatus.OK).body(motoristaDetalhado);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Motorista não encontrado");
         }
     }
 

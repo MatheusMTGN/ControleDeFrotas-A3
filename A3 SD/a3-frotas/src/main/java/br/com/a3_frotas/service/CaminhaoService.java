@@ -28,6 +28,8 @@ public class CaminhaoService {
         if (caminhaoExistente.isPresent()) {
             throw new IllegalArgumentException("Já existe um veículo adicionado com esta placa");
         }
+
+
         return caminhaoRepository.save(caminhao);
     }
 

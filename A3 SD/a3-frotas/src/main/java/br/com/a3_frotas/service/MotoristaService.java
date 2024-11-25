@@ -33,14 +33,12 @@ public class MotoristaService {
 
     // Método para cadastrar motorista (inicialmente sem caminhão)
     public Motorista cadastrarMotorista(Motorista motorista) {
-        motoristaRepository.findByCpf(motorista.getCpf()).ifPresent(existing -> {
-            throw new IllegalArgumentException("Motorista já cadastrado com este CPF.");
-        });
 
-        motoristaRepository.findByEmail(motorista.getEmail()).ifPresent(existing -> {
-            throw new IllegalArgumentException("Já existe um motorista com este e-mail.");
-        });
-
+        Optional<Motorista> motoristaCpf = motoristaRepository.findByCpf(motorista.getCpf());
+        Optional<Motorista> motoristaEmail = motoristaRepository.findByEmail(motorista.getEmail());
+        if(motoristaCpf.isPresent() || motoristaEmail.isPresent()) {
+            throw new IllegalArgumentException("Já existe um motorista com este CPF e/ou e-mail");
+        }
         return motoristaRepository.save(motorista);
     }
 
@@ -48,9 +46,14 @@ public class MotoristaService {
     public Motorista vincularCaminhao(Long motoristaId, Long caminhaoId) {
         Motorista motorista = motoristaRepository.findById(motoristaId)
                 .orElseThrow(() -> new IllegalArgumentException("Nenhum motorista foi encontrado com este ID."));
+        if(motorista.getAtivo()==false){
+            throw new IllegalArgumentException("Não é possível vincular um caminhão a um motorista com o cadastro desativado.");
+        }
         Caminhao caminhao = caminhaoRepository.findById(caminhaoId)
                 .orElseThrow(() -> new IllegalArgumentException("Nenhum caminhão foi encontrado com este ID."));
         motorista.setCaminhao(caminhao);
+
+
 
         return motoristaRepository.save(motorista);
     }

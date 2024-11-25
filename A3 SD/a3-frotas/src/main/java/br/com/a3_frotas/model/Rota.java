@@ -32,6 +32,8 @@ public class Rota {
     @JoinColumn(name = "motorista_id", nullable = false)
     private Motorista motorista;
 
+
+
     public Rota(Long id, String pontoDePartida, String pontoDeChegada, Motorista motorista) {
         this.id = id;
         this.pontoDePartida = pontoDePartida;
