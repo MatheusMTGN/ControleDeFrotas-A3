@@ -47,7 +47,7 @@ public class Motorista {
     @OneToMany(mappedBy = "motorista", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Rota> rotas;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "caminhao_id", nullable = true)
     private Caminhao caminhao;
 
