@@ -49,19 +49,23 @@ Este sistema segue a arquitetura MVC:
 - **DELET** `localhost:8080/motoristas/{id}` -> para "deletar" o motorista pelo seu ID. O campo de deletar apenas faz com que o cadastro do motorista fique desativado, mas não o excluí do banco de dados;
 - **GET** `localhost:8080/motoristas/detalhes{id}` -> detalhes totais do motorista, com todos os seus campos e rotas;
 - **POST** `localhost:8080/motoristas/{id}/vincular-caminhao/{placa}` -> vincula um motorista à um caminhão;
-** 🚛 Caminhão**
+
+  
+**🚛 Caminhão**
 - **POST** `localhost:8080/caminhoes`-> para o cadastro do caminhão, com informações necessárias: placa, modelo, ano;
 - **GET** `localhost:8080/caminhoes/{placa}` -> para filtrar um caminhão pela sua placa;
 - **GET** `localhost:8080/caminhoes` -> para listar todos os caminhões;
 - **POST** `localhost:8080/caminhoes{placa}` -> para atualizar dados do caminhão. Os únicos campos que permitem alteração são: ano e modelo;
 - **DELETE** `localhost:8080/caminhoes{placa}` -> deleta um caminhão;
 
-** 🗺️ Rotas**
+**🗺️ Rotas**
 - **POST** `localhost:8080/rotas` -> para o cadastro de rotas, com informações necessárias: origem, destino e motorista (id);
 - **GET** `localhost:8080/rotas` -> lista todas as rotas;
 - **GET** `localhost:8080/rotas/motorista/{id}` -> lista todas as rotas de um motorista específico;
 - **PUT** `localhost:8080/rotas/{id}` -> atualiza uma rota específica;
 - **DELETE** `localhost:8080/rotas/{id}` -> deleta uma rota pelo id;
+
+  
 ## 💻 Tecnologias Utilizadas
 - **Java 17**;
 - **Spring Boot** com os módulos:
