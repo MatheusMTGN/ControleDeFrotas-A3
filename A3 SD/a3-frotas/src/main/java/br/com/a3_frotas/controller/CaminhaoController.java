@@ -38,7 +38,6 @@ public class CaminhaoController {
         }
     }
 
-
     @GetMapping("/{placa}")
     public ResponseEntity<Caminhao> buscarCaminhao(@PathVariable String placa) {
         Caminhao caminhao = caminhaoService.filtrarPorPlaca(placa);
@@ -50,7 +49,7 @@ public class CaminhaoController {
 
 
 
-    @PostMapping("/{placa}")
+    @PutMapping("/{placa}")
     public ResponseEntity<Caminhao> atualizarCaminhao(@PathVariable String placa, @RequestBody Caminhao caminhaoAtualizado) {
         Caminhao caminhaoAtualizadoResponse = caminhaoService.atualizarCaminhao(placa, caminhaoAtualizado);
         if (caminhaoAtualizadoResponse == null) {

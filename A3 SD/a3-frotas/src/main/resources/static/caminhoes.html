@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Caminhões</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Gerenciamento de Transportes</h1>
+        <nav>
+          <a href="./home.html">Dashboard</a>
+          <a href="./motoristas.html">Motoristas</a>
+          <a href="./rotas.html">Rotas</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <h2>Gerenciamento de Caminhões</h2>
+        <div class="actions">
+          <a href="cadastrar_caminhao.html" class="btn">+ Cadastrar Caminhão</a>
+        </div>
+        <div class="container">
+          <h2>Vincular Caminhão ao Motorista</h2>
+
+          <form action="vincular_caminhao_submit" method="post">
+            <label for="caminhao">Escolha um caminhão:</label>
+            <select id="caminhao" name="caminhao" required>
+              <option value="AXC556">Volvo FH - AXC556</option>
+              <option value="JYN789">Scania S - JYN789</option>
+              <!-- Mais caminhões disponíveis -->
+            </select>
+            <button type="submit" class="btn">Vincular</button>
+          </form>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Placa</th>
+              <th>Modelo</th>
+              <th>Ano</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>AXC556</td>
+              <td>Volvo FH</td>
+              <td>2019</td>
+              <td>
+                <a href="#" class="btn small">Editar</a>
+                <a href="#" class="btn small red">Remover</a>
+              </td>
+            </tr>
+            <!-- Mais caminhões -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2024 Transportes. Todos os direitos reservados.</p>
+      </div>
+    </footer>
+  </body>
+</html>
