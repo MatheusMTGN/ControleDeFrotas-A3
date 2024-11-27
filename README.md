@@ -55,7 +55,7 @@ Este sistema segue a arquitetura MVC:
 - **POST** `localhost:8080/caminhoes`-> para o cadastro do caminhão, com informações necessárias: placa, modelo, ano;
 - **GET** `localhost:8080/caminhoes/{placa}` -> para filtrar um caminhão pela sua placa;
 - **GET** `localhost:8080/caminhoes` -> para listar todos os caminhões;
-- **POST** `localhost:8080/caminhoes{placa}` -> para atualizar dados do caminhão. Os únicos campos que permitem alteração são: ano e modelo;
+- **PUT** `localhost:8080/caminhoes{placa}` -> para atualizar dados do caminhão. Os únicos campos que permitem alteração são: ano e modelo;
 - **DELETE** `localhost:8080/caminhoes{placa}` -> deleta um caminhão;
 
 **🗺️ Rotas**
