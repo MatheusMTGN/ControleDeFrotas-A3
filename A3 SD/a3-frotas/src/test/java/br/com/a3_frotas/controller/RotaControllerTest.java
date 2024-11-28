@@ -128,7 +128,7 @@ public class RotaControllerTest {
         ResponseEntity<?> response = rotaController.atualizarRota(1L, rota);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        assertEquals("Rota não encontrada", response.getBody());
+        assertEquals("Rota inexistente", response.getBody());
     }
 
     @Test

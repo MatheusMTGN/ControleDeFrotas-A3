@@ -72,7 +72,7 @@ public class MotoristaServiceTest {
             motoristaService.cadastrarMotorista(motorista);
         });
 
-        assertEquals("Motorista já cadastrado com este CPF.", thrown.getMessage());
+        assertEquals("Já existe um motorista com este CPF e/ou e-mail", thrown.getMessage());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class MotoristaServiceTest {
             motoristaService.cadastrarMotorista(motorista);
         });
 
-        assertEquals("Já existe um motorista com este e-mail.", thrown.getMessage());
+        assertEquals("Já existe um motorista com este CPF e/ou e-mail", thrown.getMessage());
     }
 
     @Test

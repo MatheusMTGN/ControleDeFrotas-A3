@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Motoristas</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Gerenciamento de Transportes</h1>
+        <nav>
+          <a href="./home.html">Dashboard</a>
+          <a href="./caminhoes.html">Caminhões</a>
+          <a href="./rotas.html">Rotas</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <h2>Gerenciamento de Motoristas</h2>
+        <div class="actions">
+          <a href="cadastrar_motorista.html" class="btn"
+            >+ Cadastrar Motorista</a
+          >
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>CPF</th>
+              <th>Telefone</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Pedro Silveira</td>
+              <td>168.470.832-16</td>
+              <td>(67) 4569-8767</td>
+              <td class="status ativo">Ativo</td>
+              <td>
+                <a href="#" class="btn small">Editar</a>
+                <a href="#" class="btn small red">Desativar</a>
+                <a href="vincular_caminhao.html?id=1" class="btn small"
+                  >Vincular Caminhão</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>Maria Oliveira</td>
+              <td>784.563.123-89</td>
+              <td>(11) 91234-5678</td>
+              <td class="status inativo">Inativo</td>
+              <td>
+                <a href="#" class="btn small">Editar</a>
+                <a href="#" class="btn small red">Reativar</a>
+                <a href="vincular_caminhao.html?id=1" class="btn small"
+                  >Vincular Caminhão</a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2024 Transportes. Todos os direitos reservados.</p>
+      </div>
+    </footer>
+  </body>
+</html>
