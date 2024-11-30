@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastrar Rota</title>
+    <link rel="stylesheet" href="../static/css/newstyle.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Gerenciamento de Transportes</h1>
+        <nav>
+          <a href="motoristas.html">Motoristas</a>
+          <a href="caminhoes.html">Caminhões</a>
+          <a href="rotas.html" class="active">Rotas</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <h2>Cadastrar Rota</h2>
+        <form id="formCadastrarRota">
+          <label for="origem">Origem:</label>
+          <input type="text" id="origem" name="origem" required />
+
+          <label for="destino">Destino:</label>
+          <input type="text" id="destino" name="destino" required />
+
+          <label for="motorista">Motorista (ID):</label>
+          <input
+            type="number"
+            id="motorista"
+            name="motorista"
+            required
+            min="1"
+          />
+
+          <button type="submit" class="btn">Cadastrar</button>
+        </form>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2024 Transportes. Todos os direitos reservados.</p>
+      </div>
+    </footer>
+
+    <script>
+      document
+        .getElementById("formCadastrarRota")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const rota = {
+            origem: document.getElementById("origem").value,
+            destino: document.getElementById("destino").value,
+            motorista: { id: document.getElementById("motorista").value },
+          };
+
+          const response = await fetch("http://localhost:8080/rotas", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(rota),
+          });
+
+          if (response.ok) {
+            alert("Rota cadastrada com sucesso!");
+            window.location.href = "rotas.html";
+          } else {
+            alert("Erro ao cadastrar rota. Verifique os dados!");
+          }
+        });
+    </script>
+  </body>
+</html>

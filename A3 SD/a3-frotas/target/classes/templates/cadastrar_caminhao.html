@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastrar Caminhão</title>
+  <link rel="stylesheet" href="./static/css/newstyle.css"/>
+</head>
+<body>
+<header>
+  <div class="container">
+    <h1>Gerenciamento de Transportes</h1>
+    <nav>
+      <a href="./motoristas.html">Motoristas</a>
+      <a href="./caminhoes.html" class="active">Caminhões</a>
+      <a href="./rotas.html">Rotas</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <h2>Cadastrar Caminhão</h2>
+    <form th:action="@{/caminhoes/add}" method="post">
+      <label for="placa">Placa:</label>
+      <input type="text" id="placa" name="placa" th:value="${caminhao.placa}" required maxlength="6"/>
+
+      <label for="modelo">Modelo:</label>
+      <input type="text" id="modelo" name="model" th:value="${caminhao.model}" required />
+
+      <label for="ano">Ano:</label>
+      <input type="number" id="ano" name="ano" th:value="${caminhao.ano}" required min="1980" max="2025" />
+
+      <div th:if="${erro}">
+        <p class="error" th:text="${erro}"></p>
+      </div>
+
+      <button type="submit" class="btn">Cadastrar</button>
+    </form>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2024 Transportes. Todos os direitos reservados.</p>
+  </div>
+</footer>
+</body>
+</html>

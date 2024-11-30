@@ -15,40 +15,46 @@ import java.util.Optional;
 @Service
 public class MotoristaService {
 
+    @Autowired
     private final MotoristaRepository motoristaRepository;
-    private final CaminhaoRepository caminhaoRepository;
-    private final RotaRepository rotaRepository;
-
 
     @Autowired
-    public MotoristaService (MotoristaRepository motoristaRepository, CaminhaoRepository caminhaoRepository, RotaRepository rotaRepository) {
+    private final CaminhaoRepository caminhaoRepository;
 
+    @Autowired
+    private final RotaRepository rotaRepository;
+
+    @Autowired
+    public MotoristaService(MotoristaRepository motoristaRepository, CaminhaoRepository caminhaoRepository, RotaRepository rotaRepository) {
         this.motoristaRepository = motoristaRepository;
         this.caminhaoRepository = caminhaoRepository;
         this.rotaRepository = rotaRepository;
     }
 
+    // Método para cadastrar motorista (inicialmente sem caminhão)
     public Motorista cadastrarMotorista(Motorista motorista) {
-        Optional<Motorista> motoristaExistente = motoristaRepository.findByCpf(motorista.getCpf());
-        if (motoristaExistente.isPresent()) {
-            throw new IllegalArgumentException("Motorista já cadastrado");
-        }
 
+        Optional<Motorista> motoristaCpf = motoristaRepository.findByCpf(motorista.getCpf());
         Optional<Motorista> motoristaEmail = motoristaRepository.findByEmail(motorista.getEmail());
-        if (motoristaEmail.isPresent()) {
-            throw new IllegalArgumentException("Já existe um motorista com este e-mail");
+        if(motoristaCpf.isPresent() || motoristaEmail.isPresent()) {
+            throw new IllegalArgumentException("Já existe um motorista com este CPF e/ou e-mail");
         }
+        return motoristaRepository.save(motorista);
+    }
 
-        // Verficia se há caminhão para cadastro. Se existir, ele cadastra (caso ainda não exista);
-        if (motorista.getCaminhao() != null) {
-            Caminhao caminhao = motorista.getCaminhao();
-            Optional<Caminhao> caminhaoExistente = caminhaoRepository.findByPlaca(caminhao.getPlaca());
-            if (caminhaoExistente.isEmpty()) {
-                caminhaoRepository.save(caminhao); //Salva o caminhão, caso ainda não estiver cadastrado
-            }else{
-                motorista.setCaminhao(caminhaoExistente.get()); //Seta o caminhão ao motorista cadastrado
-            }
+
+    public Motorista vincularCaminhao(Long motoristaId, Long caminhaoId) {
+        Motorista motorista = motoristaRepository.findById(motoristaId)
+                .orElseThrow(() -> new IllegalArgumentException("Nenhum motorista foi encontrado com este ID."));
+        if(motorista.getAtivo()==false){
+            throw new IllegalArgumentException("Não é possível vincular um caminhão a um motorista com o cadastro desativado.");
         }
+        Caminhao caminhao = caminhaoRepository.findById(caminhaoId)
+                .orElseThrow(() -> new IllegalArgumentException("Nenhum caminhão foi encontrado com este ID."));
+        motorista.setCaminhao(caminhao);
+
+
+
         return motoristaRepository.save(motorista);
     }
 
@@ -56,51 +62,57 @@ public class MotoristaService {
         return motoristaRepository.findAll();
     }
 
-    public List<Motorista> listarMotoristasAtivos(){
+    public List<Motorista> listarMotoristasAtivos() {
         return motoristaRepository.findByAtivoTrue();
     }
 
-    public Motorista filtrarPorId (Long id) {
+    public Motorista filtrarPorId(Long id) {
         return motoristaRepository.findById(id).orElse(null);
     }
 
+    //Não usamos
     public Motorista filtrarPorCpf(String cpf) {
         return motoristaRepository.findByCpf(cpf).orElse(null);
     }
 
+    //Não usamos
     public List<Motorista> filtrarPorNome(String nome) {
         return motoristaRepository.findByNomeContainingIgnoreCase(nome);
     }
 
-    public Motorista atualizarMotorista (Long id, Motorista motoristaAtualizado) {
+
+    public Motorista atualizarMotorista(Long id, Motorista motoristaAtualizado) {
         Motorista motorista = filtrarPorId(id);
 
-        if(motoristaAtualizado.getTelefone() != null) {
+        if (motoristaAtualizado.getTelefone() != null) {
             motorista.setTelefone(motoristaAtualizado.getTelefone());
         }
 
-        if(motoristaAtualizado.getEmail() != null) {
+        if (motoristaAtualizado.getEmail() != null) {
             motorista.setEmail(motoristaAtualizado.getEmail());
         }
 
         return motoristaRepository.save(motorista);
     }
 
-    public void deletarMotorista (Long id) {
+
+    public void deletarMotorista(Long id) {
         Motorista motorista = filtrarPorId(id);
         motorista.setAtivo(false);
         motoristaRepository.save(motorista);
     }
 
-    public Motorista detalharMotorista(Long id){
-        Optional<Motorista> motorista = motoristaRepository.findById(id);
-        if(motorista.isEmpty()) {
+
+    public Motorista detalharMotorista(Long id) {
+        Optional<Motorista> motoristaOptional = motoristaRepository.findById(id);
+
+        if (motoristaOptional.isEmpty()) {
             throw new IllegalArgumentException("Nenhum motorista foi encontrado com este ID.");
         }
 
-        Motorista motoristaDetalhamento = motorista.get();
-        List<Rota> rotas = rotaRepository.findByMotoristaId(motoristaDetalhamento.getId());
-        motoristaDetalhamento.setCaminhao(motoristaDetalhamento.getCaminhao());
-        return motoristaDetalhamento;
+        Motorista motorista = motoristaOptional.get();
+        List<Rota> rotas = rotaRepository.findByMotoristaId(id);
+        motorista.setRotas(rotas);
+        return motorista;
     }
 }

@@ -1,0 +1,1 @@
+ALTER TABLE caminhoes MODIFY modelo VARCHAR(255) NULL;
