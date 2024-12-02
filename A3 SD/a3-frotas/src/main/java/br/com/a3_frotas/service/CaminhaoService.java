@@ -2,19 +2,25 @@ package br.com.a3_frotas.service;
 
 import br.com.a3_frotas.model.Caminhao;
 import br.com.a3_frotas.repository.CaminhaoRepository;
+import br.com.a3_frotas.repository.MotoristaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CaminhaoService {
+
     private final CaminhaoRepository caminhaoRepository;
 
+    private final MotoristaRepository motoristaRepository;
+
     @Autowired
-    public CaminhaoService(CaminhaoRepository caminhaoRepository) {
+    public CaminhaoService(CaminhaoRepository caminhaoRepository, MotoristaRepository motoristaRepository) {
         this.caminhaoRepository = caminhaoRepository;
+        this.motoristaRepository = motoristaRepository;
     }
 
     public Caminhao adicionarCaminhao(Caminhao caminhao) {
@@ -66,4 +72,27 @@ public class CaminhaoService {
     public List<Caminhao> listarTodosOsCaminhoes() {
         return caminhaoRepository.findAll();
     }
+
+
+    public List<Caminhao> listarCaminhoesDisponiveis() {
+        // Lista todos os caminhões
+        List<Caminhao> todosCaminhoes = caminhaoRepository.findAll();
+
+        // Lista os IDs dos caminhões já vinculados a motoristas
+        List<Long> caminhaoIdsVinculados = motoristaRepository.findAll()
+                .stream()
+                .filter(motorista -> motorista.getCaminhao() != null)
+                .map(motorista -> motorista.getCaminhao().getId())
+                .collect(Collectors.toList());
+
+        // Retorna apenas os caminhões que não estão vinculados
+        return todosCaminhoes.stream()
+                .filter(caminhao -> !caminhaoIdsVinculados.contains(caminhao.getId()))
+                .collect(Collectors.toList());
+    }
+
+    public List<Caminhao> listarTodosComMotoristas() {
+        return caminhaoRepository.findAll();
+    }
+
 }

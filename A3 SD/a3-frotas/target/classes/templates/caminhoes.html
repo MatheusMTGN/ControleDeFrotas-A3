@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Caminhões</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <h1>Gerenciamento de Transportes</h1>
+    <nav>
+      <a href="/home">Dashboard</a>
+      <a href="/motoristas/motorista">Motoristas</a>
+      <a href="/rotas/rotas">Rotas</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <h2>Gerenciamento de Caminhões</h2>
+    <div class="actions">
+      <a href="/caminhoes/add" class="btn">+ Cadastrar Caminhão</a>
+    </div>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Placa</th>
+        <th>Modelo</th>
+        <th>Ano</th>
+        <th>Ações</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="caminhao : ${caminhoes}">
+        <td th:text="${caminhao.id}"></td>
+        <td th:text="${caminhao.placa}"></td>
+        <td th:text="${caminhao.model}"></td>
+        <td th:text="${caminhao.ano}"></td>
+        <td>
+          <a th:value th:href="@{/caminhoes/editar/{placa}(placa=${caminhao.placa})}" class="btn small">Editar</a>
+          <a th:href="@{/caminhoes/remover/{placa}(placa=${caminhao.placa})}" class="btn small red"
+             onclick="return confirm('Tem certeza que deseja remover este caminhão?')">Remover</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2024 Transportes. Todos os direitos reservados.</p>
+  </div>
+</footer>
+</body>
+</html>

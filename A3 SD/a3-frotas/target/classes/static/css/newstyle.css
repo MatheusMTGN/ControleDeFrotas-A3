@@ -29,7 +29,7 @@ body {
 }
 
 header {
-  background: #007bff;
+  background: #333;
   color: #fff;
   padding: 10px 0;
 }
@@ -55,7 +55,7 @@ header nav a {
 
 header nav a.active,
 header nav a:hover {
-  background: #0056b3;
+  background: #333;
 }
 
 main h2 {
@@ -92,12 +92,12 @@ form button {
 
 form input:focus,
 form select:focus {
-  border-color: #007bff;
+  border-color: #333;
   outline: none;
 }
 
 form button {
-  background: #007bff;
+  background: #333;
   color: #fff;
   border: none;
   cursor: pointer;
@@ -105,14 +105,14 @@ form button {
 }
 
 form button:hover {
-  background: #0056b3;
+  background: #333;
 }
 
 footer {
   text-align: center;
   margin-top: 20px;
   padding: 10px 0;
-  background: #007bff;
+  background: #333;
   color: #fff;
   font-size: 0.9rem;
 }

@@ -9,6 +9,6 @@ import java.util.List;
 public interface RotaRepository extends JpaRepository<Rota, Long> {
 
     List<Rota> findByMotoristaId(Long motoristaId);
-
+    void deleteById(Long id);
 
 }

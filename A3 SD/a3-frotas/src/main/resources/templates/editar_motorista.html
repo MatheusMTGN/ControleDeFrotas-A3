@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Motorista</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1>Gerenciamento de Transportes</h1>
+        <nav>
+            <a href="/home">Dashboard</a>
+            <a href="/motoristas/motorista">Motoristas</a>
+            <a href="/caminhoes/caminhao">Caminhões</a>
+            <a href="/rotas/rotas">Rotas</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <h2>Editar Motorista</h2>
+
+        <form th:action="@{'/motoristas/editar/' + ${motorista.id}}" method="post">
+            <input type="hidden" name="_method" value="POST" /> <!-- Para simular um PUT com POST -->
+            <label for="email">E-mail:</label>
+            <input type="text" id="email" name="email" th:value="${motorista.email}" required>
+            <br>
+            <label for="telefone">Telefone:</label>
+            <input type="text" id="telefone" name="telefone" th:value="${motorista.telefone}" required>
+
+            <input type="hidden" id="id" name="id" th:value="${motorista.id}">
+            <input type="hidden" id="dataNascimento" name="dataNascimento" th:value="${motorista.dataNascimento}">
+            <input type="hidden" id="nome" name="nome" th:value="${motorista.nome}">
+            <input type="hidden" id="cpf" name="cpf" th:value="${motorista.cpf}">
+            <input type="hidden" id="cnh" name="cnh" th:value="${motorista.cnh}">
+
+            <button type="submit">Atualizar</button>
+        </form>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2024 Transportes. Todos os direitos reservados.</p>
+    </div>
+</footer>
+</body>
+</html>

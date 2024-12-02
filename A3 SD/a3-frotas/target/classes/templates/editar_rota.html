@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Rota</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1>Gerenciamento de Transportes</h1>
+        <nav>
+            <a href="/home">Dashboard</a>
+            <a href="/rotas">Rotas</a>
+            <a href="/motoristas/motorista">Motoristas</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <h2>Editar Rota</h2>
+
+        <form th:action="@{/rotas/editar/{id}(id=${rota.id})}" method="post">
+            <!-- Campo oculto para o motorista -->
+            <input type="hidden" name="motoristaId" th:value="${rota.motorista.id}" />
+
+            <label for="pontoDePartida">Ponto de Partida:</label>
+            <input type="text" name="pontoDePartida" id="pontoDePartida" th:value="${rota.pontoDePartida}" required />
+
+            <label for="pontoDeChegada">Ponto de Chegada:</label>
+            <input type="text" name="pontoDeChegada" id="pontoDeChegada" th:value="${rota.pontoDeChegada}" required />
+
+            <button type="submit">Atualizar Rota</button>
+        </form>
+        <div th:if="${errorMessage}" class="error-message">
+            <p th:text="${errorMessage}"></p>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2024 Transportes. Todos os direitos reservados.</p>
+    </div>
+</footer>
+</body>
+</html>

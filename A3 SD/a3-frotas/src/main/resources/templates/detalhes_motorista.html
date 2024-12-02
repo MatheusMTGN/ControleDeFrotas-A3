@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detalhes do Motorista</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1>Gerenciamento de Transportes</h1>
+        <nav>
+            <a href="/motoristas/motorista">Motoristas</a>
+            <a href="/caminhoes/caminhao">Caminhões</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <h2>Detalhes do Motorista</h2>
+
+        <div class="details">
+            <p><strong>ID:</strong> <span th:text="${motorista.id}"></span></p>
+            <p><strong>Nome:</strong> <span th:text="${motorista.nome}"></span></p>
+            <p><strong>CPF:</strong> <span th:text="${motorista.cpf}"></span></p>
+            <p><strong>Data de Nascimento:</strong> <span th:text="${motorista.dataNascimento}"></span></p>
+            <p><strong>E-mail:</strong> <span th:text="${motorista.email}"></span></p>
+            <p><strong>Telefone:</strong> <span th:text="${motorista.telefone}"></span></p>
+            <p><strong>Status:</strong>
+                <span th:text="${motorista.ativo} ? 'Ativo' : 'Inativo'"
+                      th:classappend="${motorista.ativo} ? 'status ativo' : 'status inativo'"></span>
+            </p>
+            <p th:if="${motorista.caminhao != null}">
+                <strong>Caminhão Vinculado:</strong>
+                <span th:text="${motorista.caminhao.model} + ' - ' + ${motorista.caminhao.placa}"></span>
+            </p>
+            <p th:if="${motorista.caminhao == null}">
+                <strong>Caminhão Vinculado:</strong> Nenhum caminhão vinculado.
+            </p>
+        </div>
+
+        <div class="actions">
+            <a href="/motoristas/motorista" class="btn">Voltar</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2024 Transportes. Todos os direitos reservados.</p>
+    </div>
+</footer>
+</body>
+</html>

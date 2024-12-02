@@ -44,8 +44,7 @@ public class Motorista {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "motorista", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "motorista")
     private List<Rota> rotas;
 
     @OneToOne
@@ -94,7 +93,8 @@ public class Motorista {
         }
     }
 
-
+    @OneToMany(mappedBy = "motorista", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Rota> rota;
 
     public Motorista() {
     }

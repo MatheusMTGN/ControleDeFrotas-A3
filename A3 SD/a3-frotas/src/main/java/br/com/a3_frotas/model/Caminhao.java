@@ -26,6 +26,10 @@ public class Caminhao {
     @Column(nullable = false)
     private int ano;
 
+    @OneToOne(mappedBy = "caminhao")
+    private Motorista motorista;
+
+
     public Caminhao(String placa, int ano, String model) {
         this.placa = placa;
         this.ano = ano;

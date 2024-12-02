@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Caminhão</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1>Gerenciamento de Transportes</h1>
+        <nav>
+            <a href="/home">Dashboard</a>
+            <a href="/motoristas/motorista">Motoristas</a>
+            <a href="/rotas/rotas">Rotas</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <h2>Editar Caminhão</h2>
+
+        <form th:action="@{'/caminhoes/editar/' + ${placa}}" method="post">
+            <input type="hidden" name="_method" value="POST" /> <!-- Para simular um PUT com POST -->
+            <br>
+            <label for="model">Modelo:</label>
+            <input type="text" id="model" name="model" value="" required>
+            <br>
+            <label for="ano">Ano:</label>
+            <input type="number" id="ano" name="ano" value="{{caminhao.ano}}" required>
+            <br>
+            <input type="hidden" id="placa" name="placa" th:value="${placa}">
+
+            <button type="submit">Atualizar</button>
+        </form>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2024 Transportes. Todos os direitos reservados.</p>
+    </div>
+</footer>
+</body>
+</html>

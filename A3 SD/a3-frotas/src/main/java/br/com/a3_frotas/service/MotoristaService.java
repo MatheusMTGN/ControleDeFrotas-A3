@@ -45,16 +45,21 @@ public class MotoristaService {
 
     public Motorista vincularCaminhao(Long motoristaId, Long caminhaoId) {
         Motorista motorista = motoristaRepository.findById(motoristaId)
-                .orElseThrow(() -> new IllegalArgumentException("Nenhum motorista foi encontrado com este ID."));
-        if(motorista.getAtivo()==false){
-            throw new IllegalArgumentException("Não é possível vincular um caminhão a um motorista com o cadastro desativado.");
-        }
+                .orElseThrow(() -> new IllegalArgumentException("Motorista não encontrado"));
+
         Caminhao caminhao = caminhaoRepository.findById(caminhaoId)
-                .orElseThrow(() -> new IllegalArgumentException("Nenhum caminhão foi encontrado com este ID."));
+                .orElseThrow(() -> new IllegalArgumentException("Caminhão não encontrado"));
+
+        if (caminhao.getMotorista() != null) {
+            Motorista motoristaAnterior = caminhao.getMotorista();
+            motoristaAnterior.setCaminhao(null);
+            motoristaRepository.save(motoristaAnterior);
+        }
+
+        caminhao.setMotorista(motorista);
         motorista.setCaminhao(caminhao);
 
-
-
+        caminhaoRepository.save(caminhao);
         return motoristaRepository.save(motorista);
     }
 
@@ -115,4 +120,9 @@ public class MotoristaService {
         motorista.setRotas(rotas);
         return motorista;
     }
+
+    public void atualizarMotorista(Motorista motorista) {
+        motoristaRepository.save(motorista);
+    }
+
 }

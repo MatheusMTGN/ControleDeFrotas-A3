@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Motoristas</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<header>
+  <div class="container">
+    <h1>Gerenciamento de Transportes</h1>
+    <nav>
+      <a href="/home">Dashboard</a>
+      <a href="/caminhoes/caminhao">Caminhões</a>
+      <a href="/rotas/rotas">Rotas</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <h2>Gerenciamento de Motoristas</h2>
+    <div class="actions">
+      <a href="/motoristas/add" class="btn">+ Cadastrar Motorista</a>
+    </div>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Nome</th>
+        <th>CPF</th>
+        <th>Telefone</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- Iteração para listar motoristas -->
+      <tr th:each="motorista : ${motoristas}">
+        <td th:text="${motorista.nome}">Nome do Motorista</td>
+        <td th:text="${motorista.cpf}">CPF</td>
+        <td th:text="${motorista.telefone}">Telefone</td>
+        <td>
+                <span
+                        th:classappend="${motorista.ativo} ? 'status ativo' : 'status inativo'"
+                        th:text="${motorista.ativo} ? 'Ativo' : 'Inativo'"
+                >
+                  Status
+                </span>
+        </td>
+        <td>
+          <a
+                  th:href="@{/motoristas/editar/{id}(id=${motorista.id})}"
+                  class="btn small"
+          >Editar</a
+          >
+          <a
+                  th:href="@{/motoristas/inativar/{id}(id=${motorista.id})}"
+                  th:if="${motorista.ativo}"
+                  class="btn small red"
+          >Desativar</a
+          >
+          <a
+                  th:href="@{/motoristas/vincular-caminhao/{id}(id=${motorista.id})}"
+                  class="btn small"
+          >Vincular Caminhão</a
+          >
+          <a
+                  th:href="@{/motoristas/detalhes/{id}(id=${motorista.id})}"
+                  class="btn small"
+          >Detalhes</a
+          >
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2024 Transportes. Todos os direitos reservados.</p>
+  </div>
+</footer>
+</body>
+</html>

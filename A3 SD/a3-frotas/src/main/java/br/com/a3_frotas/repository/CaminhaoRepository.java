@@ -10,5 +10,6 @@ public interface CaminhaoRepository extends JpaRepository<Caminhao, Long> {
 
     Optional<Caminhao> findByPlaca(String placa);
     Optional<Caminhao> findById(Long id);
+    List<Caminhao> findByMotoristaIsNull();
 
 }

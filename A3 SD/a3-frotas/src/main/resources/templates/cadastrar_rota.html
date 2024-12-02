@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastrar Rota</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <h1>Gerenciamento de Transportes</h1>
+    <nav>
+      <a href="/rotas">Rotas</a>
+      <a href="/motoristas/motorista">Motoristas</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <h2>Cadastrar Rota</h2>
+
+    <form th:action="@{/rotas/add}" method="post">
+      <label for="motoristaId">Motorista:</label>
+      <select name="motoristaId" id="motoristaId" required>
+        <option value="" disabled selected>Escolha um Motorista</option>
+        <th:block th:each="motorista : ${motoristas}">
+          <option th:value="${motorista.id}" th:text="${motorista.nome}"></option>
+        </th:block>
+      </select>
+
+      <label for="pontoDePartida">Ponto de Partida:</label>
+      <input type="text" name="pontoDePartida" id="pontoDePartida" required />
+
+      <label for="pontoDeChegada">Ponto de Chegada:</label>
+      <input type="text" name="pontoDeChegada" id="pontoDeChegada" required />
+
+      <button type="submit">Cadastrar Rota</button>
+    </form>
+    <div th:if="${errorMessage}" class="error-message">
+      <p th:text="${errorMessage}"></p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2024 Transportes. Todos os direitos reservados.</p>
+  </div>
+</footer>
+</body>
+</html>

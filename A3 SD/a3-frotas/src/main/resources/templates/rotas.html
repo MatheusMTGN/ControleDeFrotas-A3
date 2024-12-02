@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rotas</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <h1>Gerenciamento de Transportes</h1>
+    <nav>
+      <a href="/home">Dashboard</a>
+      <a href="/motoristas/motorista">Motoristas</a>
+      <a href="/caminhoes/caminhao">Caminhões</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <h2>Gerenciamento de Rotas</h2>
+    <div class="actions">
+      <a href="/rotas/add" class="btn">+ Cadastrar Rota</a>
+    </div>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Motorista</th>
+        <th>Ponto de Partida</th>
+        <th>Ponto de Chegada</th>
+        <th>Ações</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="rota : ${rotas}">
+        <td th:text="${rota.motorista.nome}">Nome do Motorista</td>
+        <td th:text="${rota.pontoDePartida}">Ponto de Partida</td>
+        <td th:text="${rota.pontoDeChegada}">Ponto de Chegada</td>
+        <td>
+          <a th:href="@{/rotas/editar/{id}(id=${rota.id})}" class="btn small">Editar</a>
+
+          <a th:href="@{/rotas/remover/{id}(id=${rota.id})}"
+             class="btn small red"
+             onclick="return confirm('Tem certeza que deseja remover esta rota?')">Remover</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>&copy; 2024 Transportes. Todos os direitos reservados.</p>
+  </div>
+</footer>
+</body>
+</html>

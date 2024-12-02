@@ -65,12 +65,12 @@ public class RotaService {
     }
 
 
-    public void excluirRota(Long id){
-        Optional<Rota> rota = rotaRepository.findById(id);
-        if(rota.isPresent()){
-            rotaRepository.delete(rota.get());
-        }else{
-            throw new IllegalArgumentException("Nenhuma rota foi encontrada com este ID.");
+    public void excluirRota(Long id) {
+        Optional<Rota> rotaOptional = rotaRepository.findById(id);
+        if (rotaOptional.isPresent()) {
+            rotaRepository.delete(rotaOptional.get());
+        } else {
+            throw new IllegalArgumentException("Rota não encontrada.");
         }
     }
 
@@ -91,6 +91,8 @@ public class RotaService {
         return rotaRepository.save(rotaExistente);
     }
 
-
+    public Optional<Rota> buscarRotaPorId(Long id) {
+        return rotaRepository.findById(id);
+    }
 
 }
