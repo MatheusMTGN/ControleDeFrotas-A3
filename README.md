@@ -2,6 +2,10 @@
 
 Um sistema de gerenciamento de caminhões, motoristas e rotas de uma frota de caminhões, desenvolvido com **Spring Boot** e **MySQL**. Este projeto permite o gerenciamento de dados essenciais para operações logísticas, com uma arquitetura **MVC**.
 
+## 👥 Integrantes
+- Anna Paula do Nascimento - 12522196193
+- Matheus da Rocha Oliveira - 12522165805
+
 ## 📝 Sumário
 - [Sobre o Projeto](#sobre-o-projeto)
 - [Funcionalidades](#funcionalidades)
